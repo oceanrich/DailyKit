@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101716"><meta name="description" content="可離線使用的幀率、快門速度與快門角度換算工具。"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>快門實驗室｜幀率・快門・角度</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1110;--panel:#141d1b;--line:#30423b;--muted:#a5b6ae;--green:#b8f577}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#edf4ee;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:980px;margin:auto;padding:40px 24px calc(36px + env(safe-area-inset-bottom))}header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid var(--line);padding-bottom:24px}.brand{font-size:13px;letter-spacing:.16em;color:var(--green)}h1{font-size:clamp(26px,5vw,38px);line-height:1.3;margin:8px 0}p{margin:8px 0}.muted,small{color:var(--muted)}small{font-size:13px}.status{font-size:13px;color:var(--green);text-align:right;max-width:180px}.intro{margin:24px 0;color:var(--muted)}.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.field{min-width:0;border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:22px 18px}.field:focus-within{border-color:var(--green)}label{display:block;font-weight:600}.tag{height:25px;margin-top:3px;color:var(--green);font-size:13px}.inputline{display:flex;align-items:center;gap:6px;margin:15px 0}.inputline span{color:var(--muted);white-space:nowrap}input{font:500 clamp(24px,3vw,34px)/1.3 ui-monospace,monospace;min-width:0;width:100%;color:#fff;border:0;border-bottom:1px solid #4c6156;background:transparent;border-radius:0;padding:5px 0}input:focus{outline:none;border-color:var(--green)}input[aria-invalid=true]{border-color:#ffa896}button{font:inherit;cursor:pointer;color:#d7e4dc;background:#203029;border:1px solid #40574a;border-radius:8px;min-height:44px;padding:8px 12px}button:hover{background:#344c3b}button:focus-visible,summary:focus-visible{outline:2px solid var(--green);outline-offset:4px}.presets{display:flex;gap:7px;flex-wrap:wrap}.presets button{font-size:14px;padding:5px 10px}.rule{border-left:3px solid var(--green);padding:10px 16px;margin:22px 0;background:#162319}.rule p{margin:0}.message{color:#ffb4a3;margin:10px 0;min-height:26px}.result{display:grid;grid-template-columns:140px 1fr;gap:26px;align-items:center;border-top:1px solid var(--line);padding:26px 0}.dial{width:140px;height:140px;border-radius:50%;background:conic-gradient(var(--green) var(--sweep,180deg),#283830 0);display:grid;place-items:center;transform:rotate(-90deg)}.dial div{background:var(--bg);border-radius:50%;width:108px;height:108px;display:grid;place-content:center;text-align:center;transform:rotate(90deg)}.dial strong{font-size:24px}.metrics{display:flex;flex-wrap:wrap;gap:24px}.metrics strong{font:24px/1.5 ui-monospace,monospace;display:block}.bar{height:8px;background:#283830;border-radius:9px;margin-top:16px;overflow:hidden}.bar div{height:100%;width:50%;background:var(--green)}details{border-top:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600;min-height:44px;padding-top:7px}li{margin:8px 0}code{color:var(--green)}footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px}#install{background:var(--green);color:#152311;font-weight:600}[hidden]{display:none!important}@media(max-width:650px){main{padding:24px 18px}header{align-items:flex-start}.fields{grid-template-columns:1fr}.field{padding:16px 18px}.inputline{margin:8px 0 12px}input{font-size:32px}.tag{float:right;margin-top:-25px}.result{grid-template-columns:100px 1fr;gap:18px}.dial{width:100px;height:100px}.dial div{width:78px;height:78px}.dial strong{font-size:19px}.metrics{gap:10px}.metrics strong{font-size:20px}.status{max-width:125px}.intro{margin:18px 0}}
+</style></head><body><main>
+<header><div><div class="brand">SHUTTER LAB / 攝影工具</div><h1>快門實驗室</h1><small>幀率 × 曝光時間 × 360° = 快門角度</small></div><div class="status" id="offline" role="status">獨立離線工具</div></header>
+<p class="intro">輸入 FPS，立即推薦 180° 快門；手動調整快門或角度，依目前 FPS 即時換算。</p>
+<section class="fields" aria-label="換算數值">
+<div class="field"><label for="fps">幀率</label><div class="tag" id="fps-tag"></div><div class="inputline"><input id="fps" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="fps-help error" value="30"><span>FPS</span></div><small id="fps-help">改此欄：重新推薦 180° 快門</small><div class="presets" data-field="fps"><button>23.976</button><button>24</button><button>30</button><button>60</button></div></div>
+<div class="field"><label for="n">快門速度</label><div class="tag" id="n-tag"></div><div class="inputline"><span>1 /</span><input id="n" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="n-help error" value="60"><span>秒</span></div><small id="n-help">只填分母 N，例如 60 代表 1/60 秒</small><div class="presets" data-field="n"><button>50</button><button>60</button><button>100</button><button>120</button></div></div>
+<div class="field"><label for="angle">快門角度</label><div class="tag" id="angle-tag"></div><div class="inputline"><input id="angle" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" aria-describedby="angle-help error" value="180"><span>°</span></div><small id="angle-help">改此欄：保留目前 FPS</small><div class="presets" data-field="angle"><button>90</button><button>172.8</button><button>180</button><button>360</button></div></div>
+</section>
+<div class="rule"><p id="rule" aria-live="polite"></p></div><p class="message" id="error" role="status"></p>
+<section class="result" aria-label="曝光比例"><div class="dial" id="dial"><div><strong id="percent">50%</strong><small>單幀曝光</small></div></div><div><div class="metrics"><div><small>曝光時間</small><strong id="exposure"></strong></div><div><small>每幀時間</small><strong id="frame"></strong></div></div><div class="bar"><div id="bar"></div></div><small>綠色為曝光時間，其餘為未曝光時間。</small></div></section>
+<details><summary>連動規則與計算方式</summary><p>這是攝影參數推薦＋自由換算工具。輸入 FPS 時，採用 180° 原則作為推薦條件；手動輸入快門或角度時，則依目前 FPS 換算：</p><ul><li>修改 FPS：重新採用 <strong>180°</strong>，推薦快門分母 <strong>N = FPS × 2</strong>。</li><li>修改快門分母 N：保留<strong>目前 FPS</strong>，計算角度。</li><li>修改快門角度：保留<strong>目前 FPS</strong>，計算快門分母 N。</li></ul><p>初始值為 30 FPS、1/60 秒、180°。每次主動輸入 FPS 或點選 FPS 快捷值（即使數值相同），都會重新推薦 180°，取代先前手動調整的角度。重新開啟頁面則保留上次有效設定。</p><p><code>角度 = 360 × FPS ÷ N</code><br><code>N = 360 × FPS ÷ 角度</code></p><p>接受大於 0 的有限小數；角度須介於 0°（不含）至 360°。曝光超過一幀時會提示，不會截斷輸入數值。輸入無效時，其他欄及圖表保留上次有效結果；離開欄位會還原。</p><p>計算欄顯示最多 12 位有效數字，內部保留完整浮點精度。實際相機可選值可能不同。</p></details>
+<details><summary>保存、安裝與離線使用</summary><p id="save-status">有效設定會自動保存在此瀏覽器。</p><p>獨立 HTML 不需網路即可計算。若要加入主畫面並離線啟動，請將完整 ZIP 解壓至 HTTPS 網站，首次開啟後等待右上角顯示「離線快取已就緒」。</p><p>iPhone／iPad：使用 Safari 的分享選單，選「加入主畫面」。支援安裝的其他瀏覽器可用下方安裝按鈕或瀏覽器選單。清除網站資料會移除設定與離線快取，之後需重新連線。</p><button id="install" hidden>安裝工具</button></details>
+<footer><small>本機計算 · 無追蹤 · 無外部套件</small><button id="reset">重設為 30 / 60 / 180</button></footer>
+</main><script>
+'use strict';
+const KEY='shutter-lab-v1';
+let state={fps:30,n:60,angle:180,last:'fps'};
+const fields=['fps','n','angle'];
+const $=id=>document.getElementById(id);
+const fmt=n=>String(Number(n.toPrecision(12)));
+function calculate(previous,key,value){
+ if(!Number.isFinite(value)||value<=0)throw Error('請輸入大於 0 的有效數字。');
+ const next={...previous,[key]:value,last:key};
+ if(key==='fps'){next.angle=180;next.n=2*next.fps;}
+ else if(key==='angle')next.n=360*next.fps/next.angle;
+ else next.angle=360*next.fps/next.n;
+ if(!fields.every(k=>Number.isFinite(next[k])&&next[k]>0))throw Error('數值過大或過小，請調整後重試。');
+ if(next.angle>360)throw Error('曝光時間超過一幀：角度不可大於 360°。請提高快門分母，或先降低 FPS。');
+ return next;
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));$('save-status').textContent='有效設定已自動保存在此瀏覽器。';}catch{$('save-status').textContent='此瀏覽器無法保存設定；本次仍可計算，關閉後可能重設。';}}
+function render(active){
+ fields.forEach(k=>{if(k!==active)$(k).value=fmt(state[k]);$(k).setAttribute('aria-invalid','false');});
+ const recommending=state.last==='fps';const computed=state.last==='n'?'angle':'n';
+ fields.forEach(k=>$(k+'-tag').textContent=recommending?(k==='fps'?'輸入值':'180° 推薦'):(k==='fps'?'目前幀率':k===computed?'自動換算':'手動輸入'));
+ $('rule').textContent=recommending?`180° 推薦：${fmt(state.fps)} FPS → 快門 1/${fmt(state.n)} 秒、角度 180°。`:`依目前 ${fmt(state.fps)} FPS 換算，${computed==='angle'?`角度為 ${fmt(state.angle)}°`:`快門為 1/${fmt(state.n)} 秒`}。再次修改 FPS 將重新推薦 180°。`;
+ const percent=state.angle/360*100;
+ $('percent').textContent=fmt(percent)+'%';$('dial').style.setProperty('--sweep',state.angle+'deg');$('bar').style.width=percent+'%';
+ $('exposure').textContent=fmt(1000/state.n)+' ms';$('frame').textContent=fmt(1000/state.fps)+' ms';$('error').textContent='';
+}
+function edit(key){
+ const raw=$(key).value.trim();
+ try{if(!/^(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(raw))throw Error('請輸入數字；小數請使用「.」。快門欄只填分母。');state=calculate(state,key,Number(raw));render(key);save();}
+ catch(e){$(key).setAttribute('aria-invalid','true');$('error').textContent=e.message+' 其他數值與圖表保留上次有效結果。';}
+}
+try{const stored=JSON.parse(localStorage.getItem(KEY));if(stored&&fields.every(k=>typeof stored[k]==='number'&&Number.isFinite(stored[k])&&stored[k]>0)&&stored.angle<=360&&fields.includes(stored.last)&&Math.abs(stored.n-360*stored.fps/stored.angle)<=stored.n*1e-10){state=stored;if(state.last==='fps'&&state.angle!==180)state.last='angle';}}catch{}
+fields.forEach(key=>{$(key).addEventListener('input',()=>edit(key));$(key).addEventListener('blur',()=>render());$(key).addEventListener('keydown',e=>{if(e.key==='Enter')$(key).blur();});});
+document.querySelectorAll('[data-field] button').forEach(b=>b.addEventListener('click',()=>{const key=b.parentElement.dataset.field;$(key).value=b.textContent;edit(key);}));
+$('reset').addEventListener('click',()=>{state={fps:30,n:60,angle:180,last:'fps'};render();save();});
+render();save();
+let promptEvent;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptEvent=e;$('install').hidden=false;});
+$('install').addEventListener('click',async()=>{if(promptEvent){await promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;$('install').hidden=true;}});
+window.addEventListener('appinstalled',()=>{$('install').hidden=true;});
+if(location.protocol!=='file:'){
+ const manifest=document.createElement('link');manifest.rel='manifest';manifest.href='./manifest.webmanifest';document.head.append(manifest);
+ const icon=document.createElement('link');icon.rel='apple-touch-icon';icon.href='./icon-192.png';document.head.append(icon);
+ if('serviceWorker' in navigator&&window.isSecureContext){
+ $('offline').textContent='正在準備離線快取…';
+ navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{const status=()=>{$('offline').textContent=navigator.onLine?'離線快取已就緒':'離線使用中';};status();window.addEventListener('online',status);window.addEventListener('offline',status);}).catch(()=>{$('offline').textContent='快取未就緒 · 仍可計算';});
+ }else $('offline').textContent='離線安裝需要 HTTPS';
+}
+</script></body></html>

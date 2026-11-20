@@ -4,7 +4,7 @@
 const scope = self.registration.scope;
 const prefix = 'dailykit-' + scope + '-';
 const legacyPrefix = 'shutter-lab-' + scope + '-';
-const cacheName = prefix + 'v11';
+const cacheName = prefix + 'v15';
 const files = ['./', './index.html', './shutter-angle-calculator.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 const localFiles = new Set(files.map(file => new URL(file, scope).pathname));
 

@@ -103,7 +103,7 @@ small,.caption,.tag { font-size:var(--small); color:var(--muted) }
 .sr { position:absolute; width:1px; height:1px; padding:0; margin:0; border:0; overflow:hidden; white-space:nowrap; clip:rect(0,0,0,0); clip-path:inset(50%) }
 .ui-icon { display:block; width:20px; height:20px; flex:none; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round }
 .site-header { border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px) }
-.mast,.wordmark,.theme-control,.search-box,.cross-nav,.actions,.rate-panel,.site-footer { display:flex; align-items:center }
+.mast,.wordmark,.theme-control,.cross-nav,.actions,.rate-panel,.site-footer { display:flex; align-items:center }
 .mast { min-height:64px; justify-content:space-between; gap:var(--s2) }
 .wordmark { gap:var(--s2); min-height:44px; font-size:1.25rem; font-weight:650; letter-spacing:-.055em }
 .wordmark img { height:32px; width:32px; border-radius:var(--r-control) }
@@ -121,61 +121,73 @@ small,.caption,.tag { font-size:var(--small); color:var(--muted) }
 #theme-dark:focus-visible ~ .app [for="theme-dark"] { outline:2px solid var(--accent); border-radius:var(--r-control) }
 main.wrap { flex:1 }
 .view { padding-block:var(--s8) var(--s12) }
-.home-heading { display:grid; align-items:end; gap:var(--s4); margin-bottom:var(--s4) }
-.home-heading p,.intro { margin-top:var(--s1); color:var(--muted) }
-.home-heading p { font-size:.9375rem; letter-spacing:.005em }
-.search-box { gap:var(--s2); min-height:44px; padding-inline:var(--s3); background:var(--wash); border-radius:var(--r-control); color:var(--muted) }
+.appearance-picker { width:44px; height:44px; position:relative; display:grid; place-items:center; border-radius:50%; color:var(--icon) }
+.appearance-picker select { position:absolute; inset:0; width:100%; height:100%; opacity:0 }
+.appearance-picker:focus-within { outline:2px solid var(--accent) }
+.home-heading { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:var(--s2) var(--s3) }
+.intro { margin-top:var(--s1); color:var(--muted) }
+.search-toggle { display:grid; place-items:center; width:44px; color:var(--muted); border-radius:var(--r-control) }
+.search-toggle[aria-expanded="true"] { background:var(--wash); color:var(--ink) }
+.search-toggle[aria-expanded="false"] .close-icon,.search-toggle[aria-expanded="true"] .search-icon { display:none }
+.search-box { display:none; align-items:center; gap:var(--s2); min-width:0; padding-inline:var(--s3); background:var(--wash); border-radius:var(--r-control); color:var(--muted) }
+.home-heading.search-open .search-box { display:flex; grid-column:1/-1; width:min(100%,16rem); justify-self:end }
 .search-box:focus-within { outline:2px solid var(--accent) }
 #search { padding:0; outline:0; width:100%; min-height:44px; font-size:1rem; color:var(--ink); appearance:none }
 #search::placeholder { color:var(--muted); opacity:1 }
-.filter-row { display:flex; flex-wrap:wrap; align-items:center; column-gap:clamp(2px,1.5vw,20px); border-bottom:1px solid var(--line); margin-bottom:var(--s4) }
-.filter-row button { min-width:44px; padding:0 var(--s1); font-size:.875rem; color:var(--muted); position:relative }
-.filter-row [aria-pressed="true"] { color:var(--ink); font-weight:600 }
-.filter-row [aria-pressed="true"]::after { content:""; position:absolute; bottom:-1px; inset-inline:var(--s1); height:2px; background:var(--accent); border-radius:2px }
-#favorites-filter { margin-left:auto; display:grid; place-items:center }
-#favorites-filter[aria-pressed="true"] { color:var(--accent) }
-.list-caption { margin:var(--s6) 0 var(--s2); color:var(--muted); font-weight:500; font-size:var(--small); letter-spacing:.04em }
-.catalog { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s3) }
-.tool-card { display:grid; grid-template-columns:minmax(0,1fr) 44px; align-items:center; position:relative; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-surface); color:var(--ink) }
-.card-link { display:grid; grid-template-columns:40px minmax(0,1fr); gap:var(--s3); align-items:center; padding:var(--s4) 0 var(--s4) var(--s4); border-radius:var(--r-surface) }
+.filter-strip { display:flex; gap:var(--s1); overflow-x:auto; padding:var(--s1); margin:var(--s2) calc(-1 * var(--s1)) var(--s4) }
+.filter-strip button { flex:none; padding-inline:var(--s3); color:var(--muted); border-radius:var(--r-control); font-size:.9375rem }
+.filter-strip button[aria-pressed="true"] { color:var(--accent); background:var(--tint); font-weight:600 }
+.catalog { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s2) }
+.tool-card {
+  display:grid; grid-template-columns:minmax(0,1fr) 44px; align-items:center; position:relative;
+  padding-inline-end:var(--s2); background:var(--surface); border:1px solid var(--line); border-radius:var(--r-surface);
+}
+.card-link {
+  display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:var(--s3); min-height:72px;
+  padding:var(--s3) var(--s1) var(--s3) var(--s3); border-radius:inherit;
+}
 .card-link::after { content:""; position:absolute; inset:0; border-radius:inherit }
-.tool-icon { display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:var(--wash); color:var(--icon) }
-.tool-icon .ui-icon { width:24px; height:24px }
+.card-link:focus-visible { outline:none }
+.card-link:focus-visible::after { outline:2px solid var(--accent); outline-offset:2px }
+.tool-icon { display:grid; place-items:center; width:36px; height:36px; border-radius:var(--r-control); background:var(--wash); color:var(--icon) }
+.tool-icon .ui-icon { width:22px; height:22px }
 .card-copy { min-width:0 }
-.card-copy h3 { font-size:1.125rem }
+.card-copy h2 { font-size:1.0625rem }
 .card-copy p { color:var(--muted); font-size:.875rem; margin-top:var(--s1) }
-.card-copy small { display:block; margin-bottom:var(--s1); font-size:.75rem }
 .favorite { position:relative; z-index:1; display:grid; place-items:center; width:44px; justify-self:end; color:var(--muted); border-radius:var(--r-control) }
 .favorite[aria-pressed="true"] { color:var(--accent) }
 .favorite[aria-pressed="true"] .ui-icon { fill:var(--tint) }
 #no-results { padding:var(--s8) 0; color:var(--muted) }
 .cross-nav { justify-content:space-between; gap:var(--s4); margin-bottom:var(--s2); font-size:.875rem; color:var(--muted) }
 .cross-nav a { display:inline-flex; align-items:center; min-height:44px }
+.cross-nav .back { gap:var(--s1); padding-inline-end:var(--s2); color:var(--ink); font-size:1rem; font-weight:500 }
+.back .ui-icon { width:22px; height:22px; stroke-width:2 }
 .tool-view { padding-top:var(--s2); max-width:800px; margin-inline:auto }
 .tool-heading { margin-bottom:var(--s4) }
 .tool-heading h1 { font-size:clamp(1.625rem,4vw,2.125rem) }
 .intro,.footnote { font-size:.875rem }
-.readout,#rule { margin:0 }
-.readout { padding:var(--s4) 0; border-block:1px solid var(--line) }
-#rule { display:flex; align-items:baseline; flex-wrap:wrap; gap:0 var(--s3); overflow-wrap:anywhere; font-variant-numeric:tabular-nums }
-#rule strong { font-weight:500; font-size:var(--number); line-height:1.2; letter-spacing:-.045em }
+.readout { display:flex; align-items:baseline; flex-wrap:wrap; gap:var(--s1) var(--s3); padding-block:var(--s2); margin-bottom:var(--s3) }
+#rule { display:flex; flex-wrap:wrap; align-items:baseline; gap:var(--s1) var(--s3); overflow-wrap:anywhere; font-variant-numeric:tabular-nums }
+#rule strong { font-weight:600; font-size:1.25rem }
 #rule small { color:var(--muted) }
-.fields { display:grid; grid-template-columns:minmax(0,1fr) }
+.fields { display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s3) }
 .field { min-width:0 }
-.fields .field { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:0 var(--s2); padding:var(--s3) 0; border-bottom:1px solid var(--line) }
-.field label { font-weight:500 }
-.fields label { grid-column:1; grid-row:1 }
-.fields .tag { grid-column:1; grid-row:2 }
-.inputline { grid-column:2; grid-row:1/span 2; display:flex; align-items:baseline; gap:var(--s1); min-width:0 }
+.fields .field { display:flex; flex-direction:column; padding:var(--s4); border:1px solid var(--line); border-radius:var(--r-surface); background:var(--surface) }
+.field-heading { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:var(--s1) var(--s2) }
+.field-heading label { font-weight:600 }
+.field-heading .tag { color:var(--accent); font-weight:500 }
+.fields .inputline { display:flex; align-items:baseline; gap:var(--s1); min-width:0; margin:var(--s2) 0; border-bottom:1px solid var(--control) }
 .inputline span { color:var(--muted); flex:none }
-.field input { width:100%; min-height:44px; padding:0 var(--s1); color:var(--ink); font-size:1.5rem; font-variant-numeric:tabular-nums; border-bottom:1px solid var(--control); border-radius:0 }
-.inputline input { text-align:right }
-.field input:focus { outline:0; border-bottom:2px solid var(--accent) }
-.field input[aria-invalid="true"] { border-color:var(--error) }
-.fields .field > small,.fields .message,.presets { grid-column:1/-1 }
+.fields input { flex:1; width:100%; min-height:44px; padding:0; color:var(--ink); font-size:clamp(1.75rem,4vw,2.125rem); line-height:1.25; font-variant-numeric:tabular-nums }
+.fields .inputline:focus-within { border-color:var(--accent); box-shadow:0 1px var(--accent) }
+.fields input:focus-visible { outline:none }
+.fields input[aria-invalid="true"] { color:var(--error) }
+.fields .field > small { margin-bottom:var(--s1) }
 .presets { display:flex; flex-wrap:wrap; gap:var(--s1) }
 .presets button { min-width:44px; padding-inline:var(--s2); font-size:.875rem; color:var(--muted); font-variant-numeric:tabular-nums; border-radius:var(--r-control) }
-.presets button[aria-pressed="true"] { color:var(--accent); font-weight:600; background:var(--tint) }
+.fields .presets { margin-top:auto }
+.fields .presets button { background:var(--wash) }
+.presets button[aria-pressed="true"],.fields .presets button[aria-pressed="true"] { color:var(--accent); font-weight:600; background:var(--tint) }
 .message { margin-block:var(--s1); font-size:.875rem; color:var(--error) }
 .message:empty { display:none }
 .actions { flex-wrap:wrap; gap:var(--s2) var(--s4); margin-block:var(--s4) }
@@ -197,7 +209,10 @@ code { overflow-wrap:anywhere }
 .money-field > label:first-child { font-size:.875rem; color:var(--muted) }
 .money-field select { max-width:100%; justify-self:end; min-height:44px; font-size:1rem; color:var(--ink) }
 .money-field input,.money-field .message { grid-column:1/-1 }
-.money-field input { font-size:clamp(1.5rem,4vw,2.25rem); padding:0; letter-spacing:-.03em; min-height:52px }
+.money-field label { font-weight:500 }
+.money-field input { width:100%; font-size:clamp(1.5rem,4vw,2.25rem); padding:0; letter-spacing:-.03em; min-height:52px; color:var(--ink); font-variant-numeric:tabular-nums; border-bottom:1px solid var(--control); border-radius:0 }
+.money-field input:focus { outline:0; border-bottom:2px solid var(--accent) }
+.money-field input[aria-invalid="true"] { border-color:var(--error) }
 .money-field[data-result] input { font-size:var(--number); font-weight:550; color:var(--ink) }
 .swap { width:44px; justify-self:center; display:grid; place-items:center; color:var(--accent); border-radius:50%; background:var(--tint) }
 .swap .ui-icon { transform:rotate(90deg) }
@@ -234,6 +249,18 @@ code { overflow-wrap:anywhere }
 .nd-qa dd { margin:0; color:var(--muted) }
 .cost-lines { display:grid; grid-template-columns:auto minmax(0,1fr); gap:var(--s2); margin-block:var(--s4) }
 .cost-lines dt { color:var(--muted) }
+.pair-controls { display:grid; grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr); align-items:end; gap:var(--s2); grid-column:1/-1 }
+.pair-controls .swap .ui-icon { transform:none }
+.budget-result { padding:var(--s4); margin-block:var(--s4); background:var(--wash); border-radius:var(--r-surface) }
+.budget-result > small { font-size:.9375rem }
+.budget-result > strong { display:block; font-size:var(--number); line-height:1.2; font-weight:550; font-variant-numeric:tabular-nums; letter-spacing:-.04em; margin-block:var(--s1) var(--s4); overflow-wrap:anywhere }
+.budget-breakdown { display:flex; flex-wrap:wrap; gap:var(--s2) var(--s6); margin:0; padding-top:var(--s3); border-top:1px solid var(--line) }
+.budget-breakdown dt { color:var(--muted); font-size:var(--small) }
+.budget-breakdown dd { margin:0; font-size:.9375rem; font-variant-numeric:tabular-nums; overflow-wrap:anywhere }
+@media (min-width:680px) {
+  .pair-controls { grid-column:span 2 }
+  .budget-result { padding:var(--s6) }
+}
 #trip-balance[data-over] { color:var(--error) }
 #trip-conversion { border-top:1px solid var(--line); overflow-wrap:anywhere }
 #travel-budget .time-form input[aria-invalid="true"] { border-color:var(--error) }
@@ -257,30 +284,21 @@ code { overflow-wrap:anywhere }
 @media (min-width:680px) {
   .mast { min-height:72px }
   .view { padding-block:var(--s12) }
-  .home-heading { grid-template-columns:minmax(0,1fr) minmax(220px,280px); margin-bottom:var(--s6) }
-  .catalog { grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s4) }
-  .card-link { padding:var(--s6) 0 var(--s6) var(--s6); gap:var(--s4) }
-  .tool-card { padding-right:var(--s2); min-height:128px }
+  .search-toggle { display:none }
+  .home-heading .search-box,.home-heading.search-open .search-box { display:flex; grid-column:auto; width:12rem }
+  .filter-strip { margin-block:var(--s3) var(--s6) }
+  .catalog { grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--s3) var(--s4) }
+  .card-link { min-height:80px; padding-inline-start:var(--s4) }
   .tool-view { padding-top:var(--s4) }
-  .fields { grid-template-columns:repeat(3,minmax(0,1fr)); border-bottom:1px solid var(--line) }
-  .fields .field { display:flex; flex-direction:column; align-items:stretch; padding:var(--s4) var(--s3); border:0 }
-  .fields .field:first-child { padding-left:0 }
-  .fields .field:last-child { padding-right:0 }
-  .inputline { margin-block:var(--s2) }
-  .inputline input { text-align:left }
-  .presets { margin-top:auto; padding-top:var(--s1) }
+  .fields { grid-template-columns:repeat(3,minmax(0,1fr)) }
+  .fields .presets button { padding-inline:var(--s1) }
 }
 @media (min-width:560px) {
   .fx-row { grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr); gap:var(--s4); padding-block:var(--s6) }
   .swap .ui-icon { transform:none }
 }
 @media (min-width:680px) and (max-width:859px) {
-  .presets { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)) }
-}
-@media (max-width:359px) {
-  .card-link { grid-template-columns:32px minmax(0,1fr); gap:var(--s2); padding-left:var(--s3) }
-  .tool-icon { width:32px; height:32px }
-  .filter-row { column-gap:0 }
+  .fields .presets { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)) }
 }
 @media (orientation:landscape) and (max-height:500px) {
   .mast { min-height:48px }
@@ -289,11 +307,11 @@ code { overflow-wrap:anywhere }
 }
 @media (hover:hover) {
   .tool-card:hover { background:var(--hover) }
-  .favorite:hover,.cross-nav a:hover,.filter-row button:hover { color:var(--accent) }
+  .favorite:hover,.cross-nav a:hover,.appearance-picker:hover { color:var(--accent) }
   .presets button:hover,.actions button:hover,.rate-panel button:hover { background:var(--wash) }
 }
 @media (prefers-reduced-motion:no-preference) {
-  .tool-card,.favorite,.filter-row button,.presets button { transition:background-color 120ms ease,color 120ms ease }
+  .tool-card,.favorite,.presets button { transition:background-color 120ms ease,color 120ms ease }
 }
 </style>
 </head>
@@ -311,6 +329,10 @@ try {
 <header class="site-header">
   <div class="wrap mast">
     <a class="wordmark" href="#home" aria-label="DailyKit 工具總覽"><img alt="" width="38" height="38" src="data:image/png;base64,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">DailyKit</a>
+    <label class="appearance-picker" id="appearance-picker" title="切換外觀" hidden>
+      <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>
+      <select id="appearance-choice" aria-label="外觀模式"><option value="system">跟隨系統</option><option value="light">淺色</option><option value="dark">深色</option></select>
+    </label>
     <div class="theme-control" role="group" aria-label="外觀模式">
       <label for="theme-system" title="跟隨系統">系統</label>
       <label for="theme-light" title="淺色模式">淺色</label>
@@ -321,78 +343,74 @@ try {
 <main class="wrap">
 <section id="home" class="view" aria-labelledby="home-title">
   <div class="home-heading">
-    <div><h1 id="home-title" tabindex="-1">個人工具箱</h1><p lang="en">Everyday tools. Made simple.</p></div>
-    <label class="search-box"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.25"/><path d="m15.3 15.3 4.6 4.6"/></svg><input id="search" type="search" aria-label="搜尋工具" placeholder="搜尋工具" autocomplete="off" enterkeyhint="search"></label>
+    <h1 id="home-title" tabindex="-1">個人工具箱</h1>
+    <button type="button" id="search-toggle" class="search-toggle" aria-label="搜尋工具" aria-controls="search-box" aria-expanded="false"><svg class="ui-icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.25"/><path d="m15.3 15.3 4.6 4.6"/></svg><svg class="ui-icon close-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <label class="search-box" id="search-box"><svg class="ui-icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.25"/><path d="m15.3 15.3 4.6 4.6"/></svg><input id="search" type="search" aria-label="搜尋工具" placeholder="搜尋工具" autocomplete="off" enterkeyhint="search"></label>
   </div>
-  <div class="filter-row" role="group" aria-label="工具分類">
-    <button data-filter="all" aria-pressed="true">全部</button>
-    <button data-filter="travel" aria-pressed="false">旅行</button>
-    <button data-filter="creator" aria-pressed="false" aria-label="攝影與創作">創作</button>
-    <button data-filter="everyday" aria-pressed="false" aria-label="日常生活">日常</button>
-    <button data-filter="finance" aria-pressed="false">財務</button>
-    <button data-filter="favorites" id="favorites-filter" aria-label="只看我的常用工具" title="只看我的常用工具" aria-pressed="false" hidden><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
+  <div class="filter-strip" id="directory-filter" role="group" aria-label="篩選工具分類">
+    <button type="button" data-filter="all" aria-pressed="true">全部</button>
+    <button type="button" data-filter="travel" aria-pressed="false">旅行</button>
+    <button type="button" data-filter="creator" aria-pressed="false">攝影與創作</button>
+    <button type="button" data-filter="everyday" aria-pressed="false">日常生活</button>
+    <button type="button" data-filter="finance" aria-pressed="false">財務</button>
+    <button type="button" data-filter="favorites" aria-pressed="false" id="favorites-filter" hidden>我的常用</button>
   </div>
-  <section id="saved-section" aria-labelledby="saved-title" hidden>
-    <h2 id="saved-title" class="list-caption">我的常用</h2>
-    <div id="saved-list" class="catalog"></div>
-  </section>
-  <h2 id="other-title" class="list-caption" hidden>其他工具</h2>
   <div class="catalog" id="tool-list">
-    <article class="tool-card" data-tool="shutter" data-category="creator" data-keywords="幀率 曝光 fps shutter calculator shutter angle calculator shutter speed camera 180 度">
-      <a class="card-link" href="#shutter" aria-label="開啟快門換算器">
-        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m12 3 4.5 7.8m3.3-3.3-4.5 7.8m4.5 1.2h-9M12 21l-4.5-7.8m-3.3 3.3 4.5-7.8m-4.5-1.2h9"/></svg></span>
-        <div class="card-copy"><small>攝影與創作</small><h3>快門換算器</h3><p>換算幀率、快門速度與角度。</p></div>
-      </a>
-      <button class="favorite" data-fav="shutter" aria-label="收藏快門換算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
-    </article>
-    <article class="tool-card" data-tool="currency" data-category="travel" data-keywords="匯兌 匯率 幣別 台幣 台港幣 新台幣 日圓 美元 港幣 人民幣 currency converter currency exchange rate hkd twd usd jpy cny">
+    <article class="tool-card" data-tool="currency" data-category="travel finance" data-keywords="匯兌 匯率 幣別 台幣 台港幣 新台幣 日圓 美元 港幣 人民幣 currency converter currency exchange rate hkd twd usd jpy cny">
       <a class="card-link" href="#currency" aria-label="開啟匯率換算器">
         <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 7.5h16m-4-4 4 4-4 4M20.5 16.5h-16m4-4-4 4 4 4"/></svg></span>
-        <div class="card-copy"><small>旅行</small><h3>匯率換算器</h3><p>雙向換算外幣，查看參考匯率。</p></div>
+        <div class="card-copy"><h2>匯率換算器</h2><p>雙向換算外幣，查看參考匯率。</p></div>
       </a>
       <button class="favorite" data-fav="currency" aria-label="收藏匯率換算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
     </article>
-    <article class="tool-card" data-tool="units" data-category="everyday" data-keywords="unit converter 長度 毫米 公分 公尺 公里 英寸 英吋 英尺 英里 面積 坪 平方公尺 平方英尺 公頃 重量 公克 公斤 磅 盎司 容量 毫升 公升 美制液量盎司 加侖 溫度 攝氏 華氏 克耳文 速度 資料容量 mm cm km ft inch mile g kg oz lb ml fl oz gal °C °F kelvin km/h mph m/s KB MB GB KiB MiB GiB">
-      <a class="card-link" href="#units" aria-label="開啟萬用單位換算器">
-        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 15 12-12 6 6L9 21zM7 12l2 2m1-5 2 2m1-5 2 2"/></svg></span>
-        <div class="card-copy"><small>日常生活</small><h3>萬用單位換算器</h3><p>換算長度、坪數、重量等七類單位。</p></div>
-      </a>
-      <button class="favorite" data-fav="units" aria-label="收藏萬用單位換算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
-    </article>
-    <article class="tool-card" data-tool="timezone" data-category="travel" data-keywords="world clock timezone time zone Taipei Hong Kong Tokyo Seoul Singapore Bangkok London New York Los Angeles 時差 時間 台北 臺北 香港 東京 首爾 新加坡 曼谷 倫敦 紐約 洛杉磯 世界時間 夏令時間 DST GMT UTC">
-      <a class="card-link" href="#timezone" aria-label="開啟世界時鐘與時區換算">
-        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6.5V12l4 2.5"/></svg></span>
-        <div class="card-copy"><small>旅行</small><h3>世界時鐘與時區換算</h3><p>查看城市時間，換算跨日與夏令時間。</p></div>
-      </a>
-      <button class="favorite" data-fav="timezone" aria-label="收藏世界時鐘與時區換算" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
-    </article>
-    <article class="tool-card" data-tool="card-fees" data-category="travel" data-keywords="信用卡 外幣 消費 海外交易 結算 手動匯率 跨境 現金回饋 credit card foreign transaction fee cashback cost">
+    <article class="tool-card" data-tool="card-fees" data-category="travel finance" data-keywords="信用卡 外幣 消費 海外交易 結算 手動匯率 跨境 現金回饋 credit card foreign transaction fee cashback cost">
       <a class="card-link" href="#card-fees" aria-label="開啟海外刷卡成本計算器">
         <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M3 10h18M6.5 15h4"/></svg></span>
-        <div class="card-copy"><small>旅行</small><h3>海外刷卡成本計算器</h3><p>估算手續費、刷卡入帳與回饋後成本。</p></div>
+        <div class="card-copy"><h2>海外刷卡成本計算器</h2><p>試算海外手續費與回饋後成本。</p></div>
       </a>
       <button class="favorite" data-fav="card-fees" aria-label="收藏海外刷卡成本計算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
-    </article>
-    <article class="tool-card" data-tool="nd-filter" data-category="creator" data-keywords="中性密度 濾鏡 長曝光 減光倍率 檔數 減光級數 光學密度 可變 減光鏡 neutral density nd filter stops vnd ND1000 OD">
-      <a class="card-link" href="#nd-filter" aria-label="開啟ND 減光鏡計算器">
-        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 16 16 6M9 18 18 9M5 12l7-7"/></svg></span>
-        <div class="card-copy"><small>攝影與創作</small><h3>ND 減光鏡計算器</h3><p>換算曝光時間，或從目標快門反推 ND。</p></div>
-      </a>
-      <button class="favorite" data-fav="nd-filter" aria-label="收藏ND 減光鏡計算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
     </article>
     <article class="tool-card" data-tool="travel-budget" data-category="travel" data-keywords="旅行 旅費 規劃 天數 預算 分配 每日 花費 外幣 travel budget calculator trip">
       <a class="card-link" href="#travel-budget" aria-label="開啟旅行預算計算器">
         <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h14v17l-3-1.8-4 1.8-4-1.8-3 1.8zM8.5 8h7m-7 4h7"/></svg></span>
-        <div class="card-copy"><small>旅行</small><h3>旅行預算計算器</h3><p>分配住宿、交通等旅費，試算每天可用的預算。</p></div>
+        <div class="card-copy"><h2>旅行預算計算器</h2><p>分配旅費，估算每日可用金額。</p></div>
       </a>
       <button class="favorite" data-fav="travel-budget" aria-label="收藏旅行預算計算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
+    </article>
+    <article class="tool-card" data-tool="timezone" data-category="travel" data-keywords="world clock timezone time zone Taipei Hong Kong Tokyo Seoul Singapore Bangkok London New York Los Angeles 時差 時間 台北 臺北 香港 東京 首爾 新加坡 曼谷 倫敦 紐約 洛杉磯 世界時間 夏令時間 DST GMT UTC">
+      <a class="card-link" href="#timezone" aria-label="開啟世界時鐘與時區換算">
+        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 6.5V12l4 2.5"/></svg></span>
+        <div class="card-copy"><h2>世界時鐘與時區換算</h2><p>對照兩地時間，自動計入夏令時間。</p></div>
+      </a>
+      <button class="favorite" data-fav="timezone" aria-label="收藏世界時鐘與時區換算" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
+    </article>
+    <article class="tool-card" data-tool="shutter" data-category="creator" data-keywords="幀率 曝光 fps shutter calculator shutter angle calculator shutter speed camera 180 度">
+      <a class="card-link" href="#shutter" aria-label="開啟快門換算器">
+        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m12 3 4.5 7.8m3.3-3.3-4.5 7.8m4.5 1.2h-9M12 21l-4.5-7.8m-3.3 3.3 4.5-7.8m-4.5-1.2h9"/></svg></span>
+        <div class="card-copy"><h2>快門換算器</h2><p>換算幀率、快門速度與角度。</p></div>
+      </a>
+      <button class="favorite" data-fav="shutter" aria-label="收藏快門換算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
+    </article>
+    <article class="tool-card" data-tool="nd-filter" data-category="creator" data-keywords="中性密度 濾鏡 長曝光 減光倍率 檔數 減光級數 光學密度 可變 減光鏡 neutral density nd filter stops vnd ND1000 OD">
+      <a class="card-link" href="#nd-filter" aria-label="開啟ND 減光鏡計算器">
+        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 16 16 6M9 18 18 9M5 12l7-7"/></svg></span>
+        <div class="card-copy"><h2>ND 減光鏡計算器</h2><p>從減光檔數或目標快門雙向換算。</p></div>
+      </a>
+      <button class="favorite" data-fav="nd-filter" aria-label="收藏ND 減光鏡計算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
+    </article>
+    <article class="tool-card" data-tool="units" data-category="everyday" data-keywords="unit converter 長度 毫米 公分 公尺 公里 英寸 英吋 英尺 英里 面積 坪 平方公尺 平方英尺 公頃 重量 公克 公斤 磅 盎司 容量 毫升 公升 美制液量盎司 加侖 溫度 攝氏 華氏 克耳文 速度 資料容量 mm cm km ft inch mile g kg oz lb ml fl oz gal °C °F kelvin km/h mph m/s KB MB GB KiB MiB GiB">
+      <a class="card-link" href="#units" aria-label="開啟萬用單位換算器">
+        <span class="tool-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 15 12-12 6 6L9 21zM7 12l2 2m1-5 2 2m1-5 2 2"/></svg></span>
+        <div class="card-copy"><h2>萬用單位換算器</h2><p>長度、面積、溫度等七類換算。</p></div>
+      </a>
+      <button class="favorite" data-fav="units" aria-label="收藏萬用單位換算器" aria-pressed="false"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 2.75 5.7 6.25.9-4.5 4.4 1.05 6.2L12 17.3l-5.55 2.9 1.05-6.2L3 9.6l6.25-.9Z"/></svg></button>
     </article>
   </div>
   <p id="no-results" role="status" hidden></p>
 </section>
 
 <section id="shutter" class="view tool-view" aria-labelledby="shutter-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a><a href="#currency">匯率換算 ›</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a><a href="#currency">匯率換算 ›</a></nav>
   <div class="tool-heading"><h1 id="shutter-title" tabindex="-1">快門換算器</h1>
   <p class="intro">設定幀率取得 180° 建議，或直接調整快門與角度。</p></div>
   <div class="readout" aria-live="polite" aria-atomic="true">
@@ -400,9 +418,9 @@ try {
     <p id="rule"><strong id="readout-value">1/60 秒</strong><small id="readout-context">30 FPS · 180°</small></p>
   </div>
   <section class="fields" aria-label="換算數值">
-<div class="field"><label for="fps">幀率</label><div class="tag" id="fps-tag"></div><div class="inputline"><input id="fps" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="fps-help error" value="30"><span>FPS</span></div><small id="fps-help">改此欄：重新推薦 180° 快門</small><div class="presets" data-field="fps"><button>23.976</button><button>24</button><button>30</button><button>60</button></div></div>
-<div class="field"><label for="n">快門速度</label><div class="tag" id="n-tag"></div><div class="inputline"><span id="fraction-prefix" aria-hidden="true">1 /</span><input id="n" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="n-help error" value="60"><span>秒</span></div><small id="n-help">可輸入 60 或 1/60</small><div class="presets" data-field="n"><button>50</button><button>60</button><button>100</button><button>120</button></div></div>
-<div class="field"><label for="angle">快門角度</label><div class="tag" id="angle-tag"></div><div class="inputline"><input id="angle" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="angle-help error" value="180"><span>°</span></div><small id="angle-help">改此欄：保留目前 FPS</small><div class="presets" data-field="angle"><button>90</button><button>172.8</button><button>180</button><button>360</button></div></div>
+<div class="field"><div class="field-heading"><label for="fps">幀率</label><div class="tag" id="fps-tag"></div></div><div class="inputline"><input id="fps" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="fps-help error" value="30"><span>FPS</span></div><small id="fps-help">改此欄：重新推薦 180° 快門</small><div class="presets" data-field="fps"><button>23.976</button><button>24</button><button>30</button><button>60</button></div></div>
+<div class="field"><div class="field-heading"><label for="n">快門速度</label><div class="tag" id="n-tag"></div></div><div class="inputline"><span id="fraction-prefix" aria-hidden="true">1 /</span><input id="n" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="n-help error" value="60"><span>秒</span></div><small id="n-help">可輸入 60 或 1/60</small><div class="presets" data-field="n"><button>50</button><button>60</button><button>100</button><button>120</button></div></div>
+<div class="field"><div class="field-heading"><label for="angle">快門角度</label><div class="tag" id="angle-tag"></div></div><div class="inputline"><input id="angle" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="angle-help error" value="180"><span>°</span></div><small id="angle-help">改此欄：保留目前 FPS</small><div class="presets" data-field="angle"><button>90</button><button>172.8</button><button>180</button><button>360</button></div></div>
 </section>
 <p class="message" id="error" role="status"></p>
 <div class="actions"><button id="copy-shutter">複製拍攝設定</button><button id="reset">重設參數</button><span id="shutter-copy-status" role="status"></span></div>
@@ -417,7 +435,7 @@ try {
 </section>
 
 <section id="currency" class="view tool-view" aria-labelledby="currency-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a><a href="#shutter">快門換算 ›</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a><a href="#shutter">快門換算 ›</a></nav>
   <div class="tool-heading"><h1 id="currency-title" tabindex="-1">匯率換算器</h1><p class="intro">在任一側輸入金額，即可換算另一種貨幣。</p></div>
   <div class="fx-row">
     <div class="field money-field"><label for="fx-from">來源貨幣</label><select id="fx-from"></select><label class="sr" for="fx-left">來源金額</label><input id="fx-left" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" value="100" aria-describedby="fx-error"></div>
@@ -430,7 +448,7 @@ try {
   <p class="footnote">參考匯率供估算使用，實際扣款依銀行結算為準。</p>
 </section>
 <section id="units" class="view tool-view" aria-labelledby="units-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a></nav>
   <div class="tool-heading"><h1 id="units-title" tabindex="-1">萬用單位換算器</h1><p class="intro">選擇單位，在任一側輸入數值即可換算。</p></div>
   <div class="control-line"><label for="unit-group">換算類別</label><select class="tool-select" id="unit-group"></select></div>
   <div class="fx-row">
@@ -442,17 +460,20 @@ try {
   <div class="actions"><button id="unit-copy">複製換算結果</button><button id="unit-sign" hidden>切換正負號</button><span id="unit-feedback" role="status"></span></div>
 </section>
 <section id="timezone" class="view tool-view" aria-labelledby="timezone-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a></nav>
   <div class="tool-heading"><h1 id="timezone-title" tabindex="-1">世界時鐘與時區換算</h1><p class="intro">選擇兩座城市，換算指定日期的當地時間。</p></div>
   <div class="time-form">
-    <label>來源城市<select id="tz-from" class="tool-select"></select></label>
-    <label>目標城市<select id="tz-to" class="tool-select"></select></label>
+    <div class="pair-controls">
+      <label>來源城市<select id="tz-from" class="tool-select"></select></label>
+      <button type="button" id="tz-swap" class="swap" aria-label="交換來源與目標城市" title="交換城市"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 7.5h16m-4-4 4 4-4 4M20.5 16.5h-16m4-4-4 4 4 4"/></svg></button>
+      <label>目標城市<select id="tz-to" class="tool-select"></select></label>
+    </div>
     <label>來源日期<input id="tz-date" type="date" min="0001-01-01" max="9999-12-31"></label>
     <label>來源時間<input id="tz-time" type="time" step="60"></label>
   </div>
   <label class="fold-field" id="tz-fold-field" hidden>此時間出現兩次，請選擇時段<select id="tz-fold" class="tool-select"></select></label>
   <div class="time-output" aria-live="polite"><small id="tz-caption"></small><strong id="tz-result">—</strong><p class="footnote" id="tz-detail"></p></div>
-  <div class="actions"><button id="tz-now">現在</button><button id="tz-swap">交換城市</button><button id="tz-copy" disabled>複製結果</button><span id="tz-feedback" role="status"></span></div>
+  <div class="actions"><button id="tz-now">現在</button><button id="tz-copy" disabled>複製結果</button><span id="tz-feedback" role="status"></span></div>
   <section class="clock-section" aria-labelledby="clocks-title">
     <h2 id="clocks-title">世界時鐘</h2>
     <ul class="clock-list" id="clock-list"></ul>
@@ -461,11 +482,14 @@ try {
   </section>
 </section>
 <section id="card-fees" class="view tool-view" aria-labelledby="card-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a><a href="#currency">匯率換算 ›</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a><a href="#currency">匯率換算 ›</a></nav>
   <div class="tool-heading"><h1 id="card-title" tabindex="-1">海外刷卡成本計算器</h1><p class="intro">輸入消費金額與卡片費率，試算這筆消費最後花了多少。</p></div>
   <div class="time-form">
-    <label>消費幣別<select class="tool-select" id="card-from"></select></label>
-    <label>結算幣別<select class="tool-select" id="card-to"></select></label>
+    <div class="pair-controls">
+      <label>消費幣別<select class="tool-select" id="card-from"></select></label>
+      <button type="button" class="swap" id="card-swap" aria-label="交換消費與結算幣別" title="交換幣別"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5h16m-4-4 4 4-4 4M20.5 16.5h-16m4-4-4 4 4 4"/></svg></button>
+      <label>結算幣別<select class="tool-select" id="card-to"></select></label>
+    </div>
     <label>消費金額<input id="card-amount" inputmode="decimal" value="100" aria-describedby="card-error"></label>
     <label>手續費率（%）<input id="card-fee" inputmode="decimal" value="1.5" aria-describedby="card-error"></label>
   </div>
@@ -486,7 +510,7 @@ try {
   <div class="actions"><button id="card-copy" disabled>複製試算結果</button><span id="card-feedback" role="status"></span></div>
 </section>
 <section id="nd-filter" class="view tool-view" aria-labelledby="nd-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a><a href="#shutter">快門換算 ›</a></nav>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a><a href="#shutter">快門換算 ›</a></nav>
   <div class="tool-heading"><h1 id="nd-title" tabindex="-1">ND 減光鏡計算器</h1><p class="intro">固定 ISO 與光圈，從正確曝光的快門換算濾鏡與曝光時間。</p></div>
   <fieldset class="nd-modes"><legend class="sr">計算方向</legend>
     <label><input class="sr" type="radio" name="nd-mode" value="forward" checked><span>正向 · ND → 快門</span></label>
@@ -529,8 +553,8 @@ try {
   </section>
 </section>
 <section id="travel-budget" class="view tool-view" aria-labelledby="trip-title" hidden>
-  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home">‹ 工具箱</a><a href="#currency">匯率換算 ›</a></nav>
-  <div class="tool-heading"><h1 id="trip-title" tabindex="-1">旅行預算計算器</h1><p class="intro">輸入總預算與天數，看看每天能用多少。預留住宿、交通等費用後，還能再調整。</p></div>
+  <nav class="cross-nav" aria-label="工具導覽"><a class="back" href="#home"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg>工具箱</a><a href="#currency">匯率換算 ›</a></nav>
+  <div class="tool-heading"><h1 id="trip-title" tabindex="-1">旅行預算計算器</h1><p class="intro">輸入預算與天數，即可估算預留費用後每天能用多少。</p></div>
   <div class="time-form">
     <label>旅行總預算<input id="trip-total" inputmode="decimal" placeholder="例如 30000" aria-describedby="trip-error"></label>
     <label>旅行天數<input id="trip-days" inputmode="numeric" placeholder="例如 5" aria-describedby="trip-error"></label>
@@ -538,8 +562,14 @@ try {
     <label>目的地幣別（選填）<select id="trip-destination" class="tool-select"><option value="">不換算</option></select></label>
   </div>
   <p class="message" id="trip-error" role="status"></p>
-  <div class="time-output calc-result" aria-live="polite"><small>平均每日預算</small><strong id="trip-average">—</strong></div>
-  <details id="trip-allocation" open>
+  <div class="budget-result" aria-live="polite"><small>每日可安排</small><strong id="trip-available">—</strong>
+    <dl class="budget-breakdown" id="trip-totals">
+      <div><dt>已預留</dt><dd id="trip-allocated">—</dd></div>
+      <div><dt id="trip-balance-label">尚可分配</dt><dd id="trip-balance">—</dd></div>
+      <div><dt>原始每日平均</dt><dd id="trip-average">—</dd></div>
+    </dl>
+  </div>
+  <details id="trip-allocation">
     <summary>費用分配（選填）</summary>
     <p>填入各項費用的整趟預估金額（<span id="trip-unit">TWD</span>），留白視為零。</p>
     <div class="calc-form">
@@ -552,11 +582,6 @@ try {
     </div>
   </details>
   <p class="message" id="trip-allocation-error" role="status"></p>
-  <dl class="cost-lines" id="trip-totals" aria-live="polite">
-    <dt>已分配金額</dt><dd id="trip-allocated">—</dd>
-    <dt id="trip-balance-label">尚可分配</dt><dd id="trip-balance">—</dd>
-    <dt>每日可再安排</dt><dd id="trip-available">—</dd>
-  </dl>
   <div class="rate-panel" id="trip-conversion" hidden>
     <div><small>每日可再安排 · 目的地幣別</small><strong id="trip-local" aria-live="polite">—</strong><p class="footnote" id="trip-quote" role="status"></p></div>
     <button id="trip-retry" type="button" hidden>重試匯率</button>
@@ -663,6 +688,12 @@ if(location.protocol!=='file:'){
   });
 
   const themeInputs = all('input[name="appearance"]');
+  const appearanceChoice = byId('appearance-choice');
+  appearanceChoice.value = themeInputs.find(input => input.checked).value;
+  appearanceChoice.addEventListener('change', () => byId('theme-' + appearanceChoice.value).click());
+  byId('appearance-picker').hidden = false;
+  document.querySelector('.theme-control').hidden = true;
+  for (const input of themeInputs) input.hidden = true;
   const appearanceQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
   function syncBrowserTheme() {
     const choice = themeInputs.find(input => input.checked).value;
@@ -672,6 +703,7 @@ if(location.protocol!=='file:'){
     document.documentElement.style.backgroundColor = background;
   }
   for (const input of themeInputs) input.addEventListener('change', () => {
+    appearanceChoice.value = input.value;
     try { localStorage.setItem('dailykit-theme', input.value); } catch {}
     syncBrowserTheme();
   });
@@ -681,48 +713,62 @@ if(location.protocol!=='file:'){
 
   const savedFavorites = read('dailykit-favorites', []);
   const favorites = new Set(Array.isArray(savedFavorites) ? savedFavorites : []);
-  let filter = 'all';
   const cards = all('.tool-card');
-  const filterButtons = all('[data-filter]');
-  const catalog = byId('tool-list');
-  const savedList = byId('saved-list');
+  const filters = all('#directory-filter [data-filter]');
+  const categoryNames = new Map(filters.map(button => [button.dataset.filter, button.textContent]));
+  const catalog = byId('tool-list'), search = byId('search'), searchToggle = byId('search-toggle');
+  let selectedCategory = 'all';
+
   function filterCards() {
-    const query = byId('search').value.trim().toLocaleLowerCase();
-    const hasFavorites = cards.some(card => favorites.has(card.dataset.tool));
-    if (!hasFavorites && filter === 'favorites') filter = 'all';
+    const query = search.value.trim().toLocaleLowerCase();
+    // Match short abbreviations at a word boundary so “ND” does not match “London”.
+    const shortPrefix = /^[a-z]{1,2}$/.test(query) ? new RegExp('(?:^|[^a-z0-9])' + query) : null;
+    const saved = card => favorites.has(card.dataset.tool);
+    const hasFavorites = cards.some(saved);
     byId('favorites-filter').hidden = !hasFavorites;
-    for (const button of filterButtons) button.setAttribute('aria-pressed', String(button.dataset.filter === filter));
-    const groupSaved = hasFavorites && !query && filter === 'all';
-    byId('saved-section').hidden = !groupSaved;
+    if (!hasFavorites && selectedCategory === 'favorites') selectedCategory = 'all';
+    for (const button of filters) button.setAttribute('aria-pressed', String(button.dataset.filter === selectedCategory));
+
     const previousFocus = document.activeElement;
+    const ordered = selectedCategory === 'all' && hasFavorites ? [...cards.filter(saved), ...cards.filter(card => !saved(card))] : cards;
     let visible = 0;
-    for (const card of cards) {
-      const {tool, category, keywords} = card.dataset;
-      const saved = favorites.has(tool);
-      const inGroup = filter === 'all' || filter === category || (filter === 'favorites' && saved);
-      const matches = (card.querySelector('.card-copy').textContent + ' ' + keywords).toLocaleLowerCase().includes(query);
-      card.hidden = !(inGroup && matches);
+    for (const [index, card] of ordered.entries()) {
+      const categories = card.dataset.category.split(' ');
+      const matchesCategory = selectedCategory === 'all' || categories.includes(selectedCategory) || (selectedCategory === 'favorites' && saved(card));
+      const searchable = [card.querySelector('.card-copy').textContent, card.dataset.keywords, ...categories.map(key => categoryNames.get(key))].join(' ').toLocaleLowerCase();
+      const matchesSearch = shortPrefix ? shortPrefix.test(searchable) : searchable.includes(query);
+      card.hidden = !matchesCategory || !matchesSearch;
       if (!card.hidden) visible++;
-      const destination = groupSaved && saved ? savedList : catalog;
-      if (card.parentElement !== destination) destination.appendChild(card);
-      card.querySelector('.favorite').setAttribute('aria-pressed', String(saved));
+      card.querySelector('.favorite').setAttribute('aria-pressed', String(saved(card)));
+      if (catalog.children[index] !== card) catalog.insertBefore(card, catalog.children[index]);
     }
-    byId('other-title').hidden = !groupSaved || !catalog.children.length;
-    if (previousFocus !== document.activeElement && previousFocus.closest('.tool-card:not([hidden])')) {
-      previousFocus.focus({preventScroll:true});
-    } else if (previousFocus.closest('.tool-card[hidden]')) {
-      byId('favorites-filter').focus();
-    }
+    if (previousFocus?.closest('.tool-card[hidden]')) filters.find(button => button.dataset.filter === selectedCategory).focus();
+    else if (previousFocus?.closest('.tool-card') && previousFocus !== document.activeElement) previousFocus.focus({preventScroll:true});
     const empty = byId('no-results');
     empty.hidden = visible > 0;
-    if (!visible) {
-      const category = filterButtons.find(button => button.dataset.filter === filter);
-      empty.textContent = query ? '找不到符合搜尋條件的工具。' : '「' + category.textContent + '」目前尚無工具。';
+    if (!visible) empty.textContent = query ? '找不到符合搜尋條件的工具。' : '「' + categoryNames.get(selectedCategory) + '」目前尚無工具。';
+  }
+  for (const button of filters) button.addEventListener('click', () => {
+    selectedCategory = button.dataset.filter;
+    filterCards();
+  });
+  function toggleSearch(open) {
+    searchToggle.closest('.home-heading').classList.toggle('search-open', open);
+    searchToggle.setAttribute('aria-expanded', String(open));
+    searchToggle.setAttribute('aria-label', open ? '關閉搜尋' : '搜尋工具');
+    if (open) search.focus();
+    else {
+      search.value = '';
+      filterCards();
+      if (searchToggle.getClientRects().length) searchToggle.focus();
     }
   }
-  for (const button of filterButtons) button.addEventListener('click', () => {
-    filter = button.dataset.filter === 'favorites' && filter === 'favorites' ? 'all' : button.dataset.filter;
-    filterCards();
+  searchToggle.addEventListener('click', () => toggleSearch(searchToggle.getAttribute('aria-expanded') !== 'true'));
+  search.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      toggleSearch(false);
+    }
   });
   all('[data-fav]').forEach(button => button.addEventListener('click', () => {
     const tool = button.dataset.fav;
@@ -731,7 +777,10 @@ if(location.protocol!=='file:'){
     store('dailykit-favorites', [...favorites]);
     filterCards();
   }));
-  byId('search').addEventListener('input', filterCards);
+  search.addEventListener('input', () => {
+    if (search.value && searchToggle.getAttribute('aria-expanded') === 'false') toggleSearch(true);
+    filterCards();
+  });
   filterCards();
 
   async function copy(text, feedback) {
@@ -942,6 +991,7 @@ if(location.protocol!=='file:'){
     const base = cardFrom.value, currency = cardTo.value;
     const same = base === currency, manual = !same && cardMode.value === 'manual';
     cardMode.disabled = same;
+    byId('card-swap').disabled = same;
     byId('card-manual-wrap').hidden = !manual;
     byId('card-manual-label').textContent = '1 ' + base + ' 可換多少 ' + currency + '？';
     byId('card-fixed-label').textContent = '固定費用（' + currency + '）';
@@ -989,6 +1039,13 @@ if(location.protocol!=='file:'){
   for (const id of ['card-amount','card-fee','card-fixed','card-reward','card-manual']) byId(id).addEventListener('input',renderCard);
   for (const select of [cardFrom,cardTo]) select.addEventListener('change', () => {
     byId('card-manual').value = '';
+    loadRate();
+  });
+  byId('card-swap').addEventListener('click', () => {
+    const manualInput = byId('card-manual');
+    const inverse = 1 / unsignedNumber(manualInput.value);
+    manualInput.value = Number.isFinite(inverse) && inverse > 0 ? String(inverse) : '';
+    [cardFrom.value, cardTo.value] = [cardTo.value, cardFrom.value];
     loadRate();
   });
   cardMode.addEventListener('change',() => loadRate());
